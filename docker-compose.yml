@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - db
+  db:
+    image: postgres:15.2
+    restart: always
+    command: postgres -c listen_addresses='*'
+    environment:
+      POSTGRES_USER: tanya
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: crud-shop
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
