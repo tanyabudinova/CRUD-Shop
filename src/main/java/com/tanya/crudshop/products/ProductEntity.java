@@ -4,7 +4,7 @@ import com.tanya.crudshop.subscribers.SubscriberEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,5 +17,5 @@ public class ProductEntity {
     private LocalDateTime timestamp;
     private Boolean available;
     @ManyToMany(mappedBy = "products")
-    private Set<SubscriberEntity> subscribers;
+    private List<SubscriberEntity> subscribers;
 }

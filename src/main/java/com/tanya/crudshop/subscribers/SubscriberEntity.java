@@ -4,7 +4,7 @@ import com.tanya.crudshop.products.ProductEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,5 +21,5 @@ public class SubscriberEntity {
             name = "subscribers_products",
             joinColumns = @JoinColumn(name = "subscriber_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<ProductEntity> products;
+    private List<ProductEntity> products;
 }
