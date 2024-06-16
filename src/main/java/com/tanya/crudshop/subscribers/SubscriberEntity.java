@@ -22,4 +22,44 @@ public class SubscriberEntity {
             joinColumns = @JoinColumn(name = "subscriber_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<ProductEntity> products;
+
+    public SubscriberEntity(String firstName, String lastName, LocalDateTime joinedAt) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.joinedAt = joinedAt;
+    }
+
+    public SubscriberEntity() {}
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public LocalDateTime getJoinedAt() {
+        return joinedAt;
+    }
+
+    public List<ProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

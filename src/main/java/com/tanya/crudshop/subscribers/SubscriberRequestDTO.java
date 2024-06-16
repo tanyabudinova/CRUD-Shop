@@ -1,4 +1,10 @@
 package com.tanya.crudshop.subscribers;
 
-public record SubscriberRequestDTO(String firstName, String lastName) {
-}
+import jakarta.validation.constraints.NotBlank;
+
+public record SubscriberRequestDTO(
+        @NotBlank(message = "First name should not be empty")
+        String firstName,
+        @NotBlank
+        String lastName
+) {}
