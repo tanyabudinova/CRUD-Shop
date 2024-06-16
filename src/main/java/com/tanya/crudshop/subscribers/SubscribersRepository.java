@@ -1,6 +1,5 @@
 package com.tanya.crudshop.subscribers;
 
-import com.tanya.crudshop.products.ProductResponseDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

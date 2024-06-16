@@ -29,18 +29,31 @@ public class SubscriberEntity {
         this.joinedAt = joinedAt;
     }
 
-    public SubscriberEntity() {}
+    public SubscriberEntity() {
+    }
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public LocalDateTime getJoinedAt() {
@@ -49,17 +62,5 @@ public class SubscriberEntity {
 
     public List<ProductEntity> getProducts() {
         return products;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 }

@@ -26,7 +26,7 @@ public class SubscribersRestController {
             SubscriberResponseDTO result = subscribersService.getSubscriberById(id);
             return ResponseEntity.ok()
                     .body(result);
-        } catch(ResourceNotFoundException ex) {
+        } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         }
     }
@@ -49,12 +49,12 @@ public class SubscribersRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<SubscriberResponseDTO> updateSubscriber(@PathVariable UUID id,
-                                              @Valid @RequestBody SubscriberRequestDTO subscriberRequestDTO) {
+                                                                  @Valid @RequestBody SubscriberRequestDTO subscriberRequestDTO) {
         try {
             SubscriberResponseDTO result = subscribersService.updateSubscriber(id, subscriberRequestDTO);
             return ResponseEntity.ok()
                     .body(result);
-        } catch(ResourceNotFoundException ex) {
+        } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         }
     }

@@ -7,4 +7,5 @@ public record SubscriberRequestDTO(
         String firstName,
         @NotBlank
         String lastName
-) {}
+) {
+}

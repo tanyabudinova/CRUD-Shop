@@ -7,8 +7,12 @@ import java.util.UUID;
 
 public interface ProductsService {
     ProductResponseDTO getProductById(UUID id);
+
     ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO);
+
     List<SubscriberResponseDTO> getSubscribers(UUID id, Integer page, Integer pageSize);
-    ProductResponseDTO updateProduct(ProductRequestDTO productRequestDTO);
+
+    ProductResponseDTO updateProduct(UUID id, ProductRequestDTO productRequestDTO);
+
     void deleteProduct(UUID id);
 }
