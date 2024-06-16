@@ -41,6 +41,9 @@ public class SubscribersServiceImpl implements SubscribersService {
 
     @Override
     public List<ProductResponseDTO> getProducts(UUID id, Integer page, Integer pageSize) {
+        if (!subscribersRepository.existsById(id)) {
+            throw new ResourceNotFoundException(errorNotFoundMessage);
+        }
         Pageable pageable = PageRequest.of(page, pageSize);
         return productsRepository.findBySubscribersId(id, pageable).stream()
                 .map(product -> new ProductResponseDTO(product.getId(),

@@ -1,12 +1,10 @@
 package com.tanya.crudshop.products;
 
 import com.tanya.crudshop.subscribers.SubscriberResponseDTO;
-import com.tanya.crudshop.utils.ResourceNotFoundException;
+import com.tanya.crudshop.utils.DeletionResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,13 +20,9 @@ public class ProductsRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable UUID id) {
-        try {
-            ProductResponseDTO result = productsService.getProductById(id);
-            return ResponseEntity.ok()
-                    .body(result);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
-        }
+        ProductResponseDTO result = productsService.getProductById(id);
+        return ResponseEntity.ok()
+                .body(result);
     }
 
     @PostMapping
@@ -50,22 +44,15 @@ public class ProductsRestController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable UUID id,
                                                             @Valid @RequestBody ProductRequestDTO productRequestDTO) {
-        try {
-            ProductResponseDTO result = productsService.updateProduct(id, productRequestDTO);
-            return ResponseEntity.ok()
-                    .body(result);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
-        }
+        ProductResponseDTO result = productsService.updateProduct(id, productRequestDTO);
+        return ResponseEntity.ok()
+                .body(result);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable UUID id) {
-        try {
-            productsService.deleteProduct(id);
-            return ResponseEntity.ok().build();
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
-        }
+    public ResponseEntity<DeletionResponse> deleteProduct(@PathVariable UUID id) {
+        productsService.deleteProduct(id);
+        return ResponseEntity.ok()
+                .body(new DeletionResponse("Ok"));
     }
 }

@@ -4,7 +4,6 @@ import com.tanya.crudshop.subscribers.SubscriberResponseDTO;
 import com.tanya.crudshop.subscribers.SubscribersRepository;
 import com.tanya.crudshop.utils.DateFormatter;
 import com.tanya.crudshop.utils.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class ProductsServiceImpl implements ProductsService {
     private final ProductsRepository productsRepository;
     private final SubscribersRepository subscribersRepository;
-    private final String errorNotFoundMessage = "Product noy found.";
+    private final String errorNotFoundMessage = "Product not found.";
 
     public ProductsServiceImpl(ProductsRepository productsRepository, SubscribersRepository subscribersRepository) {
         this.productsRepository = productsRepository;
@@ -29,7 +28,7 @@ public class ProductsServiceImpl implements ProductsService {
     public ProductResponseDTO getProductById(UUID id) {
         return productsRepository.findById(id)
                 .map(this::convertEntityToDTO)
-                .orElseThrow(() -> new EntityNotFoundException(errorNotFoundMessage));
+                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage));
     }
 
     @Override
@@ -42,6 +41,9 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public List<SubscriberResponseDTO> getSubscribers(UUID id, Integer page, Integer pageSize) {
+        if (!productsRepository.existsById(id)) {
+            throw new ResourceNotFoundException(errorNotFoundMessage);
+        }
         Pageable pageable = PageRequest.of(page, pageSize);
         return subscribersRepository.findByProductsId(id, pageable).stream()
                 .map(subscriberEntity -> new SubscriberResponseDTO(subscriberEntity.getId(),
@@ -53,7 +55,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public ProductResponseDTO updateProduct(UUID id, ProductRequestDTO productRequestDTO) {
         ProductEntity productEntity = productsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(errorNotFoundMessage));
+                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage));
         productEntity.setName(productRequestDTO.name());
         productEntity.setAvailable(productRequestDTO.available());
         ProductEntity savedProductEntity = productsRepository.save(productEntity);

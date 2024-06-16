@@ -1,12 +1,10 @@
 package com.tanya.crudshop.subscribers;
 
 import com.tanya.crudshop.products.ProductResponseDTO;
-import com.tanya.crudshop.utils.ResourceNotFoundException;
+import com.tanya.crudshop.utils.DeletionResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,13 +20,9 @@ public class SubscribersRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SubscriberResponseDTO> getSubscriber(@PathVariable UUID id) {
-        try {
-            SubscriberResponseDTO result = subscribersService.getSubscriberById(id);
-            return ResponseEntity.ok()
-                    .body(result);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
-        }
+        SubscriberResponseDTO result = subscribersService.getSubscriberById(id);
+        return ResponseEntity.ok()
+                .body(result);
     }
 
     @PostMapping
@@ -50,23 +44,16 @@ public class SubscribersRestController {
     @PutMapping("/{id}")
     public ResponseEntity<SubscriberResponseDTO> updateSubscriber(@PathVariable UUID id,
                                                                   @Valid @RequestBody SubscriberRequestDTO subscriberRequestDTO) {
-        try {
-            SubscriberResponseDTO result = subscribersService.updateSubscriber(id, subscriberRequestDTO);
-            return ResponseEntity.ok()
-                    .body(result);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
-        }
+        SubscriberResponseDTO result = subscribersService.updateSubscriber(id, subscriberRequestDTO);
+        return ResponseEntity.ok()
+                .body(result);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSubscriber(@PathVariable UUID id) {
-        try {
-            subscribersService.deleteSubscriber(id);
-            return ResponseEntity.ok().build();
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
-        }
+    public ResponseEntity<DeletionResponse> deleteSubscriber(@PathVariable UUID id) {
+        subscribersService.deleteSubscriber(id);
+        return ResponseEntity.ok()
+                .body(new DeletionResponse("Ok"));
     }
 
 }
