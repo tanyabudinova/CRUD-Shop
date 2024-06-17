@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +26,12 @@ public class AuditsServiceImplTests {
 
     @InjectMocks
     private AuditsServiceImpl auditsService;
+
+    @Test
+    void numberOfSoldProductsShouldThrowIllegalArgumentWhenBothAreNull() {
+        assertThrows(IllegalArgumentException.class,
+                () -> auditsService.numberOfSoldProducts(null, null));
+    }
 
     @Test
     void mostPopularProductsShouldReturn() {
