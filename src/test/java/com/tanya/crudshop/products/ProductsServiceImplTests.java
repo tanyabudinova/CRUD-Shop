@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +39,8 @@ public class ProductsServiceImplTests {
     void getProductByIdShouldGetProduct() {
         String name = "Random";
         Boolean available = true;
-        String date = "17-06-2024";
-        ProductEntity entity = new ProductEntity(name,
-                LocalDateTime.of(2024, 6, 17, 10, 30), available);
+        LocalDate date = LocalDate.of(2024, 6, 17);
+        ProductEntity entity = new ProductEntity(name, date, available);
         UUID id = UUID.randomUUID();
         entity.setId(id);
         Optional<ProductEntity> opEntity = Optional.of(entity);
@@ -67,10 +66,9 @@ public class ProductsServiceImplTests {
     void createProductShouldCreate() {
         String name = "Random";
         Boolean available = false;
-        ProductEntity entity = new ProductEntity(name, LocalDateTime.now(), available);
-        String date = "17-06-2024";
-        ProductEntity savedEntity = new ProductEntity(name, LocalDateTime.of(2024, 6, 17, 10, 30),
-                available);
+        ProductEntity entity = new ProductEntity(name, LocalDate.now(), available);
+        LocalDate date = LocalDate.of(2024, 6, 17);
+        ProductEntity savedEntity = new ProductEntity(name, date, available);
         UUID id = UUID.randomUUID();
         savedEntity.setId(id);
         ProductRequestDTO requestDTO = new ProductRequestDTO(name, available);
@@ -103,17 +101,19 @@ public class ProductsServiceImplTests {
         String subscriber1LastName = "Smith";
         String subscriber2firstName = "Dona";
         String subscriber2LastName = "Noble";
+        LocalDate date1 = LocalDate.of(2024, 6, 17);
+        LocalDate date2 = LocalDate.of(2024, 12, 3);
         SubscriberEntity subscriberEntity1 = new SubscriberEntity(subscriber1FirstName,
-                subscriber1LastName, LocalDateTime.of(2024, 6, 17, 10, 30));
+                subscriber1LastName, date1);
         subscriberEntity1.setId(subscriber1Id);
         SubscriberEntity subscriberEntity2 = new SubscriberEntity(subscriber2firstName,
-                subscriber2LastName, LocalDateTime.of(2024, 12, 3, 10, 50));
+                subscriber2LastName, date2);
         subscriberEntity2.setId(subscriber2Id);
         SubscriberResponseDTO subscriberDTO1 = new SubscriberResponseDTO(subscriber1Id, subscriber1FirstName,
-                subscriber1LastName, "17-06-2024");
+                subscriber1LastName, date1);
         subscriberEntity1.setId(subscriber1Id);
         SubscriberResponseDTO subscriberDTO2 = new SubscriberResponseDTO(subscriber2Id, subscriber2firstName,
-                subscriber2LastName, "03-12-2024");
+                subscriber2LastName, date2);
         subscriberEntity2.setId(subscriber2Id);
         int page = 0;
         int pageSize = 2;
@@ -158,15 +158,13 @@ public class ProductsServiceImplTests {
         UUID id = UUID.randomUUID();
         String name = "Random";
         Boolean available = false;
+        LocalDate date = LocalDate.of(2023, 7, 5);
         ProductRequestDTO requestDTO = new ProductRequestDTO(name, available);
-        ProductEntity productEntity = new ProductEntity(name,
-                LocalDateTime.of(2023, 7, 5, 9, 54), available);
+        ProductEntity productEntity = new ProductEntity(name, date, available);
         productEntity.setId(id);
-        ProductEntity preUpdateEntity = new ProductEntity("Pesho",
-                LocalDateTime.of(2023, 7, 5, 9, 54), available);
+        ProductEntity preUpdateEntity = new ProductEntity("Pesho", date, available);
         preUpdateEntity.setId(id);
-        ProductResponseDTO responseDTO = new ProductResponseDTO(id,
-                name, available, "05-07-2023");
+        ProductResponseDTO responseDTO = new ProductResponseDTO(id, name, available, date);
 
         when(productsRepository.findById(id)).thenReturn(Optional.of(preUpdateEntity));
         when(productsRepository.save(argThat(new ProductsServiceImplTests.ProductEntityMatcher(productEntity))))

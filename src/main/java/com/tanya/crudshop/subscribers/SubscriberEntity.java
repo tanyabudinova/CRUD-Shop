@@ -3,7 +3,7 @@ package com.tanya.crudshop.subscribers;
 import com.tanya.crudshop.products.ProductEntity;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ public class SubscriberEntity {
     private UUID id;
     private String firstName;
     private String lastName;
-    private LocalDateTime joinedAt;
+    private LocalDate joinedAt;
     @ManyToMany
     @JoinTable(
             name = "subscribers_products",
@@ -23,7 +23,7 @@ public class SubscriberEntity {
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<ProductEntity> products;
 
-    public SubscriberEntity(String firstName, String lastName, LocalDateTime joinedAt) {
+    public SubscriberEntity(String firstName, String lastName, LocalDate joinedAt) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.joinedAt = joinedAt;
@@ -56,7 +56,7 @@ public class SubscriberEntity {
         this.lastName = lastName;
     }
 
-    public LocalDateTime getJoinedAt() {
+    public LocalDate getJoinedAt() {
         return joinedAt;
     }
 

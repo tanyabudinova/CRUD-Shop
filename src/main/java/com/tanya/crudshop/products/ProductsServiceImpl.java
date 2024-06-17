@@ -2,13 +2,12 @@ package com.tanya.crudshop.products;
 
 import com.tanya.crudshop.subscribers.SubscriberResponseDTO;
 import com.tanya.crudshop.subscribers.SubscribersRepository;
-import com.tanya.crudshop.utils.DateFormatter;
 import com.tanya.crudshop.utils.ResourceNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         ProductEntity productEntity = new ProductEntity(productRequestDTO.name(),
-                LocalDateTime.now(), productRequestDTO.available());
+                LocalDate.now(), productRequestDTO.available());
         ProductEntity savedProductEntity = productsRepository.save(productEntity);
         return convertEntityToDTO(savedProductEntity);
     }
@@ -48,7 +47,7 @@ public class ProductsServiceImpl implements ProductsService {
         return subscribersRepository.findByProductsId(id, pageable).stream()
                 .map(subscriberEntity -> new SubscriberResponseDTO(subscriberEntity.getId(),
                         subscriberEntity.getFirstName(), subscriberEntity.getLastName(),
-                        DateFormatter.format(subscriberEntity.getJoinedAt())))
+                        subscriberEntity.getJoinedAt()))
                 .collect(Collectors.toList());
     }
 
@@ -74,6 +73,6 @@ public class ProductsServiceImpl implements ProductsService {
     private ProductResponseDTO convertEntityToDTO(ProductEntity entity) {
         return new ProductResponseDTO(entity.getId(),
                 entity.getName(), entity.getAvailable(),
-                DateFormatter.format(entity.getCreationDate()));
+                entity.getCreationDate());
     }
 }

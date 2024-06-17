@@ -3,13 +3,11 @@ package com.tanya.crudshop.audits;
 import com.tanya.crudshop.products.ProductResponseDTO;
 import com.tanya.crudshop.products.ProductsRepository;
 import com.tanya.crudshop.subscribers.SubscribersRepository;
-import com.tanya.crudshop.utils.DateFormatter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +38,7 @@ public class AuditsServiceImpl implements AuditsService {
         return productsRepository.findProductsOrderedBySubscribersCount(pageable).stream()
                 .map(product -> new ProductResponseDTO(product.getId(),
                         product.getName(), product.getAvailable(),
-                        DateFormatter.format(product.getCreationDate())))
+                        product.getCreationDate()))
                 .collect(Collectors.toList());
     }
 }

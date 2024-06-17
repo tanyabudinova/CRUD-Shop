@@ -3,7 +3,7 @@ package com.tanya.crudshop.products;
 import com.tanya.crudshop.subscribers.SubscriberEntity;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,12 +14,12 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
-    private LocalDateTime creationDate;
+    private LocalDate creationDate;
     private Boolean available;
     @ManyToMany(mappedBy = "products")
     private List<SubscriberEntity> subscribers;
 
-    public ProductEntity(String name, LocalDateTime creationDate, Boolean available) {
+    public ProductEntity(String name, LocalDate creationDate, Boolean available) {
         this.name = name;
         this.creationDate = creationDate;
         this.available = available;
@@ -44,7 +44,7 @@ public class ProductEntity {
         this.name = name;
     }
 
-    public LocalDateTime getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
