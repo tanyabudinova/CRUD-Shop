@@ -33,17 +33,19 @@ public class SubscribersRestController {
     }
 
     @GetMapping("/{id}/products")
-    public ResponseEntity<List<ProductResponseDTO>> getSubscriberProducts(@PathVariable UUID id,
-                                                                          @RequestParam Integer page,
-                                                                          @RequestParam Integer pageSize) {
+    public ResponseEntity<List<ProductResponseDTO>> getSubscriberProducts(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "5") Integer pageSize) {
         List<ProductResponseDTO> result = subscribersService.getProducts(id, page, pageSize);
         return ResponseEntity.ok()
                 .body(result);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SubscriberResponseDTO> updateSubscriber(@PathVariable UUID id,
-                                                                  @Valid @RequestBody SubscriberRequestDTO subscriberRequestDTO) {
+    public ResponseEntity<SubscriberResponseDTO> updateSubscriber(
+            @PathVariable UUID id,
+            @Valid @RequestBody SubscriberRequestDTO subscriberRequestDTO) {
         SubscriberResponseDTO result = subscribersService.updateSubscriber(id, subscriberRequestDTO);
         return ResponseEntity.ok()
                 .body(result);
