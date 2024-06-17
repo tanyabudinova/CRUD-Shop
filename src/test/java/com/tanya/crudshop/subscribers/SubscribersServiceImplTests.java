@@ -15,7 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -31,23 +34,6 @@ public class SubscribersServiceImplTests {
 
     @InjectMocks
     SubscribersServiceImpl subscribersService;
-
-
-    private static class SubscriberEntityMatcher implements ArgumentMatcher<SubscriberEntity> {
-        private final SubscriberEntity left;
-
-        SubscriberEntityMatcher(SubscriberEntity entity) {
-            left = entity;
-        }
-
-        @Override
-        public boolean matches(SubscriberEntity right) {
-            return left.getFirstName().equals(right.getFirstName()) &&
-                    left.getLastName().equals(right.getLastName()) &&
-                    (left.getJoinedAt().isBefore(right.getJoinedAt()) ||
-                            left.getJoinedAt().isEqual(right.getJoinedAt()));
-        }
-    }
 
     @Test
     void getSubscriberByIdShouldGetSubscriber() {
@@ -110,7 +96,7 @@ public class SubscribersServiceImplTests {
     }
 
     @Test
-    void getProductShouldReturnCorrectNumberOfEntities() {
+    void getProductsShouldReturnCorrectNumberOfEntities() {
         UUID argumentId = UUID.randomUUID();
         UUID product1Id = UUID.randomUUID();
         UUID product2Id = UUID.randomUUID();
@@ -141,7 +127,7 @@ public class SubscribersServiceImplTests {
     }
 
     @Test
-    void getProductShouldReturnEmptyListWhenNoProducts() {
+    void getProductsShouldReturnEmptyListWhenNoProducts() {
         UUID argumentId = UUID.randomUUID();
         int page = 0;
         int pageSize = 2;
@@ -177,7 +163,7 @@ public class SubscribersServiceImplTests {
         subscriberEntity.setId(id);
         SubscriberEntity preUpdateEntity = new SubscriberEntity("Pesho", lastName,
                 LocalDateTime.of(2023, 7, 5, 9, 54));
-        subscriberEntity.setId(id);
+        preUpdateEntity.setId(id);
         SubscriberResponseDTO responseDTO = new SubscriberResponseDTO(id,
                 firstName, lastName, "05-07-2023");
 
@@ -206,5 +192,21 @@ public class SubscribersServiceImplTests {
 
         assertDoesNotThrow(() -> subscribersService.deleteSubscriber(id));
         verify(subscribersRepository, times(1)).deleteById(id);
+    }
+
+    private static class SubscriberEntityMatcher implements ArgumentMatcher<SubscriberEntity> {
+        private final SubscriberEntity left;
+
+        SubscriberEntityMatcher(SubscriberEntity entity) {
+            left = entity;
+        }
+
+        @Override
+        public boolean matches(SubscriberEntity right) {
+            return left.getFirstName().equals(right.getFirstName()) &&
+                    left.getLastName().equals(right.getLastName()) &&
+                    (left.getJoinedAt().isBefore(right.getJoinedAt()) ||
+                            left.getJoinedAt().isEqual(right.getJoinedAt()));
+        }
     }
 }
