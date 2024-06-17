@@ -38,3 +38,6 @@ out/
 
 ### DB ###
 data/
+
+### Logs ###
+logs.log

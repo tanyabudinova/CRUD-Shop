@@ -28,7 +28,7 @@ public class ProductsServiceImpl implements ProductsService {
     public ProductResponseDTO getProductById(UUID id) {
         return productsRepository.findById(id)
                 .map(this::convertEntityToDTO)
-                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage));
+                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage, id));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public List<SubscriberResponseDTO> getSubscribers(UUID id, Integer page, Integer pageSize) {
         if (!productsRepository.existsById(id)) {
-            throw new ResourceNotFoundException(errorNotFoundMessage);
+            throw new ResourceNotFoundException(errorNotFoundMessage, id);
         }
         Pageable pageable = PageRequest.of(page, pageSize);
         return subscribersRepository.findByProductsId(id, pageable).stream()
@@ -55,7 +55,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public ProductResponseDTO updateProduct(UUID id, ProductRequestDTO productRequestDTO) {
         ProductEntity productEntity = productsRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage));
+                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage, id));
         productEntity.setName(productRequestDTO.name());
         productEntity.setAvailable(productRequestDTO.available());
         ProductEntity savedProductEntity = productsRepository.save(productEntity);
@@ -67,7 +67,7 @@ public class ProductsServiceImpl implements ProductsService {
         if (productsRepository.existsById(id)) {
             productsRepository.deleteById(id);
         } else {
-            throw new ResourceNotFoundException(errorNotFoundMessage);
+            throw new ResourceNotFoundException(errorNotFoundMessage, id);
         }
     }
 

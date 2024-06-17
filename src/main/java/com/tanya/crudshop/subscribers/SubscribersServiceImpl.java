@@ -28,7 +28,7 @@ public class SubscribersServiceImpl implements SubscribersService {
     public SubscriberResponseDTO getSubscriberById(UUID id) {
         return subscribersRepository.findById(id)
                 .map(this::convertEntityToDTO)
-                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage));
+                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage, id));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class SubscribersServiceImpl implements SubscribersService {
     @Override
     public List<ProductResponseDTO> getProducts(UUID id, Integer page, Integer pageSize) {
         if (!subscribersRepository.existsById(id)) {
-            throw new ResourceNotFoundException(errorNotFoundMessage);
+            throw new ResourceNotFoundException(errorNotFoundMessage, id);
         }
         Pageable pageable = PageRequest.of(page, pageSize);
         return productsRepository.findBySubscribersId(id, pageable).stream()
@@ -55,7 +55,7 @@ public class SubscribersServiceImpl implements SubscribersService {
     @Override
     public SubscriberResponseDTO updateSubscriber(UUID id, SubscriberRequestDTO subscriberRequestDTO) {
         SubscriberEntity subscriberEntity = subscribersRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage));
+                .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage, id));
         subscriberEntity.setFirstName(subscriberRequestDTO.firstName());
         subscriberEntity.setLastName(subscriberRequestDTO.lastName());
         SubscriberEntity savedSubscriber = subscribersRepository.save(subscriberEntity);
@@ -67,7 +67,7 @@ public class SubscribersServiceImpl implements SubscribersService {
         if (subscribersRepository.existsById(id)) {
             subscribersRepository.deleteById(id);
         } else {
-            throw new ResourceNotFoundException(errorNotFoundMessage);
+            throw new ResourceNotFoundException(errorNotFoundMessage, id);
         }
     }
 
