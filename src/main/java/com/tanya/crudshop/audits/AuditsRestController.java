@@ -45,4 +45,4 @@ public class AuditsRestController {
         return ResponseEntity.ok()
                 .body(result);
     }
- }
+}

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface AuditsService {
     Long numberOfSubscribers();
+
     Long numberOfSoldProducts(LocalDate date, Boolean available);
+
     List<ProductResponseDTO> mostPopularProducts(Integer page, Integer pageSize);
 }

@@ -29,7 +29,7 @@ public class AuditsServiceImpl implements AuditsService {
 
     @Override
     public Long numberOfSoldProducts(LocalDate date, Boolean available) {
-        if(date == null && available == null) {
+        if (date == null && available == null) {
             throw new IllegalArgumentException("Date and available can't be both null");
         }
         return productsRepository.countSoldProductFilterByDateOrAvailable(date, available);

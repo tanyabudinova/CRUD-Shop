@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,5 +24,5 @@ public interface ProductsRepository extends JpaRepository<ProductEntity, UUID> {
             "GROUP BY p.id " +
             "HAVING COUNT(s) >= 1) r", nativeQuery = true)
     Long countSoldProductFilterByDateOrAvailable(@Param("date") LocalDate date,
-                                                    @Param("available") Boolean available);
+                                                 @Param("available") Boolean available);
 }
