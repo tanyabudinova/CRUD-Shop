@@ -39,7 +39,7 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public List<SubscriberResponseDTO> getSubscribers(UUID id, Integer page, Integer pageSize) {
+    public List<SubscriberResponseDTO> getSubscribers(UUID id, int page, int pageSize) {
         if (!productsRepository.existsById(id)) {
             throw new ResourceNotFoundException(errorNotFoundMessage, id);
         }

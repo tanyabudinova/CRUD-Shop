@@ -10,5 +10,5 @@ public interface AuditsService {
 
     Long numberOfSoldProducts(LocalDate date, Boolean available);
 
-    List<ProductResponseDTO> mostPopularProducts(Integer page, Integer pageSize);
+    List<ProductResponseDTO> mostPopularProducts(int page, int pageSize);
 }

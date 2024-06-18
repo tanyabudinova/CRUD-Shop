@@ -40,7 +40,7 @@ public class AuditsServiceImplTests {
         Pageable pageable = PageRequest.of(page, pageSize);
         UUID id = UUID.randomUUID();
         String name = "Vafla";
-        Boolean available = true;
+        boolean available = true;
         ProductEntity entity = new ProductEntity(name, LocalDate.MAX, available);
         entity.setId(id);
         ProductResponseDTO responseDTO = new ProductResponseDTO(id, name, available, LocalDate.MAX);

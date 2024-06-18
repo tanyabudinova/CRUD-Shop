@@ -30,8 +30,8 @@ public class AuditsRestController {
 
     @GetMapping("/products/sold")
     public ResponseEntity<Map<String, Long>> numberOfSoldProducts(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            @RequestParam Boolean available) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam(required = false) Boolean available) {
         Long count = auditsService.numberOfSoldProducts(date, available);
         return ResponseEntity.ok()
                 .body(Map.of("count", count));
@@ -39,8 +39,8 @@ public class AuditsRestController {
 
     @GetMapping("/products/popular")
     public ResponseEntity<List<ProductResponseDTO>> mostPopularProducts(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "5") Integer pageSize) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int pageSize) {
         List<ProductResponseDTO> result = auditsService.mostPopularProducts(page, pageSize);
         return ResponseEntity.ok()
                 .body(result);

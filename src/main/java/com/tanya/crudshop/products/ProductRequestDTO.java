@@ -7,6 +7,6 @@ public record ProductRequestDTO(
         @NotBlank(message = "Name should not be empty.")
         String name,
         @NotNull
-        Boolean available
+        boolean available
 ) {
 }

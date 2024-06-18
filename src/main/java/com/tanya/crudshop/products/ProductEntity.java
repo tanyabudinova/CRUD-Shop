@@ -15,11 +15,11 @@ public class ProductEntity {
     private UUID id;
     private String name;
     private LocalDate creationDate;
-    private Boolean available;
+    private boolean available;
     @ManyToMany(mappedBy = "products")
     private List<SubscriberEntity> subscribers;
 
-    public ProductEntity(String name, LocalDate creationDate, Boolean available) {
+    public ProductEntity(String name, LocalDate creationDate, boolean available) {
         this.name = name;
         this.creationDate = creationDate;
         this.available = available;
@@ -48,11 +48,11 @@ public class ProductEntity {
         return creationDate;
     }
 
-    public Boolean getAvailable() {
+    public boolean getAvailable() {
         return available;
     }
 
-    public void setAvailable(Boolean available) {
+    public void setAvailable(boolean available) {
         this.available = available;
     }
 

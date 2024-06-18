@@ -10,7 +10,7 @@ public interface ProductsService {
 
     ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO);
 
-    List<SubscriberResponseDTO> getSubscribers(UUID id, Integer page, Integer pageSize);
+    List<SubscriberResponseDTO> getSubscribers(UUID id, int page, int pageSize);
 
     ProductResponseDTO updateProduct(UUID id, ProductRequestDTO productRequestDTO);
 

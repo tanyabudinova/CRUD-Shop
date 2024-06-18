@@ -36,7 +36,7 @@ public class AuditsServiceImpl implements AuditsService {
     }
 
     @Override
-    public List<ProductResponseDTO> mostPopularProducts(Integer page, Integer pageSize) {
+    public List<ProductResponseDTO> mostPopularProducts(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         return productsRepository.findProductsOrderedBySubscribersCount(pageable).stream()
                 .map(product -> new ProductResponseDTO(product.getId(),

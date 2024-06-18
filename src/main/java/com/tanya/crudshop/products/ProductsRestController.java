@@ -35,8 +35,8 @@ public class ProductsRestController {
     @GetMapping("/{id}/subscribers")
     public ResponseEntity<List<SubscriberResponseDTO>> getProductSubscribers(
             @PathVariable UUID id,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "5") Integer pageSize) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int pageSize) {
         List<SubscriberResponseDTO> result = productsService.getSubscribers(id, page, pageSize);
         return ResponseEntity.ok()
                 .body(result);

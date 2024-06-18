@@ -1,4 +1,4 @@
 package com.tanya.crudshop.utils;
 
-public record ApiError(Integer status, String message) {
+public record ApiError(int status, String message) {
 }

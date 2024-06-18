@@ -38,7 +38,7 @@ public class ProductsServiceImplTests {
     @Test
     void getProductByIdShouldGetProduct() {
         String name = "Random";
-        Boolean available = true;
+        boolean available = true;
         LocalDate date = LocalDate.of(2024, 6, 17);
         ProductEntity entity = new ProductEntity(name, date, available);
         UUID id = UUID.randomUUID();
@@ -65,7 +65,7 @@ public class ProductsServiceImplTests {
     @Test
     void createProductShouldCreate() {
         String name = "Random";
-        Boolean available = false;
+        boolean available = false;
         ProductEntity entity = new ProductEntity(name, LocalDate.now(), available);
         LocalDate date = LocalDate.of(2024, 6, 17);
         ProductEntity savedEntity = new ProductEntity(name, date, available);
@@ -83,8 +83,8 @@ public class ProductsServiceImplTests {
     @Test
     void getSubscribersShouldThrowNotFoundExceptionWhenMissingEntity() {
         UUID id = UUID.randomUUID();
-        Integer page = 0;
-        Integer pageSize = 5;
+        int page = 0;
+        int pageSize = 5;
 
         when(productsRepository.existsById(id)).thenReturn(false);
 
@@ -157,7 +157,7 @@ public class ProductsServiceImplTests {
     void updateProductShouldReturnUpdatedEntity() {
         UUID id = UUID.randomUUID();
         String name = "Random";
-        Boolean available = false;
+        boolean available = false;
         LocalDate date = LocalDate.of(2023, 7, 5);
         ProductRequestDTO requestDTO = new ProductRequestDTO(name, available);
         ProductEntity productEntity = new ProductEntity(name, date, available);
@@ -203,7 +203,7 @@ public class ProductsServiceImplTests {
         @Override
         public boolean matches(ProductEntity right) {
             return left.getName().equals(right.getName()) &&
-                    left.getAvailable().equals(right.getAvailable()) &&
+                    left.getAvailable() == right.getAvailable() &&
                     (left.getCreationDate().isBefore(right.getCreationDate()) ||
                             left.getCreationDate().isEqual(right.getCreationDate()));
         }

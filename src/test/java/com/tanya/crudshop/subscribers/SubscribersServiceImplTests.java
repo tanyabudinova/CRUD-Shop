@@ -83,8 +83,8 @@ public class SubscribersServiceImplTests {
     @Test
     void getProductsShouldThrowNotFoundExceptionWhenMissingEntity() {
         UUID id = UUID.randomUUID();
-        Integer page = 0;
-        Integer pageSize = 5;
+        int page = 0;
+        int pageSize = 5;
 
         when(subscribersRepository.existsById(id)).thenReturn(false);
 

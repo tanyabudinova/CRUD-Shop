@@ -10,7 +10,7 @@ public interface SubscribersService {
 
     SubscriberResponseDTO createSubscriber(SubscriberRequestDTO subscriberRequestDTO);
 
-    List<ProductResponseDTO> getProducts(UUID id, Integer page, Integer pageSize);
+    List<ProductResponseDTO> getProducts(UUID id, int page, int pageSize);
 
     SubscriberResponseDTO updateSubscriber(UUID id, SubscriberRequestDTO subscriberRequestDTO);
 
