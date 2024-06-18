@@ -5,6 +5,7 @@ import com.tanya.crudshop.products.ProductsRepository;
 import com.tanya.crudshop.subscribers.SubscribersRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,9 +29,9 @@ public class AuditsServiceImpl implements AuditsService {
     }
 
     @Override
-    public Long numberOfSoldProducts(LocalDate date, Boolean available) {
+    public Long numberOfSoldProducts(@Nullable LocalDate date, @Nullable Boolean available) {
         if (date == null && available == null) {
-            throw new IllegalArgumentException("Date and available can't be both null");
+            throw new IllegalArgumentException("'date' and 'available' can't be both null");
         }
         return productsRepository.countSoldProductFilterByDateOrAvailable(date, available);
     }

@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,16 +25,16 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public ProductResponseDTO getProductById(UUID id) {
         return productsRepository.findById(id)
-                .map(this::convertEntityToDTO)
+                .map(this::convertProductToDTO)
                 .orElseThrow(() -> new ResourceNotFoundException(errorNotFoundMessage, id));
     }
 
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         ProductEntity productEntity = new ProductEntity(productRequestDTO.name(),
-                LocalDate.now(), productRequestDTO.available());
+                productRequestDTO.available());
         ProductEntity savedProductEntity = productsRepository.save(productEntity);
-        return convertEntityToDTO(savedProductEntity);
+        return convertProductToDTO(savedProductEntity);
     }
 
     @Override
@@ -58,7 +57,7 @@ public class ProductsServiceImpl implements ProductsService {
         productEntity.setName(productRequestDTO.name());
         productEntity.setAvailable(productRequestDTO.available());
         ProductEntity savedProductEntity = productsRepository.save(productEntity);
-        return convertEntityToDTO(savedProductEntity);
+        return convertProductToDTO(savedProductEntity);
     }
 
     @Override
@@ -70,7 +69,7 @@ public class ProductsServiceImpl implements ProductsService {
         }
     }
 
-    private ProductResponseDTO convertEntityToDTO(ProductEntity entity) {
+    private ProductResponseDTO convertProductToDTO(ProductEntity entity) {
         return new ProductResponseDTO(entity.getId(),
                 entity.getName(), entity.getAvailable(),
                 entity.getCreationDate());

@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,12 +38,12 @@ public class SubscribersServiceImplTests {
     void getSubscriberByIdShouldGetSubscriber() {
         String firstName = "Random";
         String lastName = "Randomov";
-        LocalDate date = LocalDate.of(2024, 6, 17);
-        SubscriberEntity entity = new SubscriberEntity(firstName, lastName, date);
+        SubscriberEntity entity = new SubscriberEntity(firstName, lastName);
         UUID id = UUID.randomUUID();
         entity.setId(id);
         Optional<SubscriberEntity> opEntity = Optional.of(entity);
-        SubscriberResponseDTO dtoExpected = new SubscriberResponseDTO(id, firstName, lastName, date);
+        SubscriberResponseDTO dtoExpected = new SubscriberResponseDTO(id, firstName,
+                lastName, entity.getJoinedAt());
 
         when(subscribersRepository.findById(id)).thenReturn(opEntity);
         SubscriberResponseDTO result = subscribersService.getSubscriberById(id);
@@ -66,13 +65,13 @@ public class SubscribersServiceImplTests {
     void createSubscriberShouldCreate() {
         String firstName = "Random";
         String lastName = "Randomov";
-        SubscriberEntity entity = new SubscriberEntity(firstName, lastName, LocalDate.now());
-        LocalDate date = LocalDate.of(2024, 6, 17);
-        SubscriberEntity savedEntity = new SubscriberEntity(firstName, lastName, date);
+        SubscriberEntity entity = new SubscriberEntity(firstName, lastName);
+        SubscriberEntity savedEntity = new SubscriberEntity(firstName, lastName);
         UUID id = UUID.randomUUID();
         savedEntity.setId(id);
         SubscriberRequestDTO requestDTO = new SubscriberRequestDTO(firstName, lastName);
-        SubscriberResponseDTO dtoExpected = new SubscriberResponseDTO(id, firstName, lastName, date);
+        SubscriberResponseDTO dtoExpected = new SubscriberResponseDTO(id, firstName,
+                lastName, savedEntity.getJoinedAt());
 
         when(subscribersRepository.save(argThat(new SubscriberEntityMatcher(entity)))).thenReturn(savedEntity);
         SubscriberResponseDTO result = subscribersService.createSubscriber(requestDTO);
@@ -81,7 +80,7 @@ public class SubscribersServiceImplTests {
     }
 
     @Test
-    void getProductsShouldThrowNotFoundExceptionWhenMissingEntity() {
+    void getProductsShouldThrowNotFoundExceptionWhenMissingSubscriber() {
         UUID id = UUID.randomUUID();
         int page = 0;
         int pageSize = 5;
@@ -99,17 +98,15 @@ public class SubscribersServiceImplTests {
         UUID product2Id = UUID.randomUUID();
         String product1Name = "Vafla";
         String product2Name = "Djvachka";
-        LocalDate date1 = LocalDate.of(2024, 6, 17);
-        LocalDate date2 = LocalDate.of(2024, 12, 3);
-        ProductEntity productEntity1 = new ProductEntity(product1Name, date1, true);
+        ProductEntity productEntity1 = new ProductEntity(product1Name, true);
         productEntity1.setId(product1Id);
-        ProductEntity productEntity2 = new ProductEntity(product2Name, date2, false);
+        ProductEntity productEntity2 = new ProductEntity(product2Name, false);
         productEntity2.setId(product2Id);
         ProductResponseDTO productDTO1 = new ProductResponseDTO(product1Id, product1Name,
-                true, date1);
+                true, productEntity1.getCreationDate());
         productEntity1.setId(product1Id);
         ProductResponseDTO productDTO2 = new ProductResponseDTO(product2Id, product2Name,
-                false, date2);
+                false, productEntity2.getCreationDate());
         productEntity2.setId(product2Id);
         int page = 0;
         int pageSize = 2;
@@ -139,7 +136,7 @@ public class SubscribersServiceImplTests {
     }
 
     @Test
-    void updateSubscriberShouldThrowNotFoundExceptionWhenMissingEntity() {
+    void updateSubscriberShouldThrowNotFoundExceptionWhenMissingSubscriber() {
         UUID id = UUID.randomUUID();
         SubscriberRequestDTO requestDTO = new SubscriberRequestDTO("Random", "Randomov");
 
@@ -154,13 +151,13 @@ public class SubscribersServiceImplTests {
         UUID id = UUID.randomUUID();
         String firstName = "Random";
         String lastName = "Randomov";
-        LocalDate date = LocalDate.of(2023, 7, 5);
         SubscriberRequestDTO requestDTO = new SubscriberRequestDTO(firstName, lastName);
-        SubscriberEntity subscriberEntity = new SubscriberEntity(firstName, lastName, date);
+        SubscriberEntity subscriberEntity = new SubscriberEntity(firstName, lastName);
         subscriberEntity.setId(id);
-        SubscriberEntity preUpdateEntity = new SubscriberEntity("Pesho", lastName, date);
+        SubscriberEntity preUpdateEntity = new SubscriberEntity("Pesho", lastName);
         preUpdateEntity.setId(id);
-        SubscriberResponseDTO responseDTO = new SubscriberResponseDTO(id, firstName, lastName, date);
+        SubscriberResponseDTO responseDTO = new SubscriberResponseDTO(id, firstName,
+                lastName, subscriberEntity.getJoinedAt());
 
         when(subscribersRepository.findById(id)).thenReturn(Optional.of(preUpdateEntity));
         when(subscribersRepository.save(argThat(new SubscriberEntityMatcher(subscriberEntity))))
@@ -171,7 +168,7 @@ public class SubscribersServiceImplTests {
     }
 
     @Test
-    void deleteSubscriberShouldThrowNotFoundExceptionWhenMissingEntity() {
+    void deleteSubscriberShouldThrowNotFoundExceptionWhenMissingSubscriber() {
         UUID id = UUID.randomUUID();
 
         when(subscribersRepository.existsById(id)).thenReturn(false);

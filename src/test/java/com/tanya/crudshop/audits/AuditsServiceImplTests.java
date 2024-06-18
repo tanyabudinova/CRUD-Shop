@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,16 @@ public class AuditsServiceImplTests {
     }
 
     @Test
+    void numberOfSoldProductsShouldWorkWhenOnlyDateIsNull() {
+        assertDoesNotThrow(() -> auditsService.numberOfSoldProducts(null, true));
+    }
+
+    @Test
+    void numberOfSoldProductsShouldWorkWhenOnlyAvailableIsNull() {
+        assertDoesNotThrow(() -> auditsService.numberOfSoldProducts(LocalDate.now(), null));
+    }
+
+    @Test
     void mostPopularProductsShouldReturn() {
         int page = 0;
         int pageSize = 2;
@@ -41,9 +52,10 @@ public class AuditsServiceImplTests {
         UUID id = UUID.randomUUID();
         String name = "Vafla";
         boolean available = true;
-        ProductEntity entity = new ProductEntity(name, LocalDate.MAX, available);
+        ProductEntity entity = new ProductEntity(name, available);
         entity.setId(id);
-        ProductResponseDTO responseDTO = new ProductResponseDTO(id, name, available, LocalDate.MAX);
+        ProductResponseDTO responseDTO = new ProductResponseDTO(id, name,
+                available, entity.getCreationDate());
 
         when(productsRepository.findProductsOrderedBySubscribersCount(pageable))
                 .thenReturn(List.of(entity));

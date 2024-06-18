@@ -14,14 +14,13 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
-    private LocalDate creationDate;
+    private LocalDate creationDate = LocalDate.now();
     private boolean available;
     @ManyToMany(mappedBy = "products")
     private List<SubscriberEntity> subscribers;
 
-    public ProductEntity(String name, LocalDate creationDate, boolean available) {
+    public ProductEntity(String name, boolean available) {
         this.name = name;
-        this.creationDate = creationDate;
         this.available = available;
     }
 

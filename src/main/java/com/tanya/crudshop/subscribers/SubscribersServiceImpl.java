@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,7 +32,7 @@ public class SubscribersServiceImpl implements SubscribersService {
     @Override
     public SubscriberResponseDTO createSubscriber(SubscriberRequestDTO subscriberRequestDTO) {
         SubscriberEntity subscriber = new SubscriberEntity(subscriberRequestDTO.firstName(),
-                subscriberRequestDTO.lastName(), LocalDate.now());
+                subscriberRequestDTO.lastName());
         SubscriberEntity savedSubscriber = subscribersRepository.save(subscriber);
         return convertEntityToDTO(savedSubscriber);
     }

@@ -15,7 +15,7 @@ public class SubscriberEntity {
     private UUID id;
     private String firstName;
     private String lastName;
-    private LocalDate joinedAt;
+    private LocalDate joinedAt = LocalDate.now();
     @ManyToMany
     @JoinTable(
             name = "subscribers_products",
@@ -23,10 +23,9 @@ public class SubscriberEntity {
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<ProductEntity> products;
 
-    public SubscriberEntity(String firstName, String lastName, LocalDate joinedAt) {
+    public SubscriberEntity(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.joinedAt = joinedAt;
     }
 
     public SubscriberEntity() {

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +24,6 @@ public interface ProductsRepository extends JpaRepository<ProductEntity, UUID> {
             "WHERE p.available = :available OR DATE(p.creation_date) = :date " +
             "GROUP BY p.id " +
             "HAVING COUNT(s) >= 1) r", nativeQuery = true)
-    Long countSoldProductFilterByDateOrAvailable(@Param("date") LocalDate date,
-                                                 @Param("available") Boolean available);
+    Long countSoldProductFilterByDateOrAvailable(@Nullable @Param("date") LocalDate date,
+                                                 @Nullable @Param("available") Boolean available);
 }
